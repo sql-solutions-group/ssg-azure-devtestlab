@@ -9,13 +9,8 @@
     "iconUri": "https://raw.githubusercontent.com/PowerShell/PowerShell/master/assets/Powershell_64.png",
     "targetOsType": "Windows",
     "parameters": {
-        "hostName": {
-            "type": "string",
-            "displayName": "Host Name",
-            "description": "Specifies the FQDN of the machine or domain."
-        }
     },
     "runCommand": {
-        "commandToExecute": "[concat('powershell.exe -ExecutionPolicy bypass \"& ./config-winrm.ps1 -HostName ''', parameters('hostName'), '''\"')]"
+        "commandToExecute": "[concat('powershell.exe -ExecutionPolicy bypass \"& ./config-winrm.ps1\"')]"
     }
 }

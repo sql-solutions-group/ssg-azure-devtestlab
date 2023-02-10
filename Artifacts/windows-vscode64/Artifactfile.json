@@ -7,21 +7,8 @@
   "iconUri": "https://github.com/Azure/azure-devtestlab/raw/master/Artifacts/windows-vscode64/vscode.svg",
   "targetOsType": "Windows",
   "parameters": {
-    "Architecture": {
-      "type": "string",
-      "displayName": "Architecture",
-      "description": "Architecture of Visual Studio Code to install. Valid values are 32-bit or 64-bit. Defaults to 64-bit.",
-      "defaultValue": "64-bit",
-      "allowedValues": ["32-bit", "64-bit"]
-    },
-    "DesktopIcon": {
-      "type": "bool",
-      "displayName": "Icon on Desktop",
-      "description": "Shows VS Code icon on the Desktop",
-      "defaultValue": false
-    }
   },
   "runCommand": {
-    "commandToExecute": "[concat('powershell.exe -ExecutionPolicy bypass \"& ./install-vscode.ps1 -Architecture ', parameters('Architecture'), ' -DesktopIcon:$', parameters('DesktopIcon'), ' \"' )]"
+    "commandToExecute": "[concat('powershell.exe -ExecutionPolicy bypass \"& ./install-vscode.ps1\"')]"
   }
 }

@@ -1,9 +1,3 @@
-[CmdletBinding()]
-param
-(
-    [Parameter(Mandatory = $true)]
-    [string] $HostName
-)
 
 ###################################################################################################
 #
@@ -31,7 +25,7 @@ trap
     {
         Write-Host -Object "ERROR: $message" -ForegroundColor Red
     }
-    
+
     # IMPORTANT NOTE: Throwing a terminating error (using $ErrorActionPreference = "Stop") still
     # returns exit code zero from the PowerShell script when using -File. The workaround is to
     # NOT use -File when calling this script and leverage the try-catch-finally block and return
@@ -158,6 +152,7 @@ function Add-FirewallException
 }
 
 try {
+    $Hostname = (Get-Item env:\computername).Value + "." + (Get-Item env:\userdnsdomain).Value
     Write-Output 'Add firewall exception for port 5986.'
     Add-FirewallException -Port 5986
 
@@ -171,6 +166,7 @@ try {
     winrm set winrm/config '@{MaxEnvelopeSizekb = "8192"}'
 
     Write-Output 'Configuring WinRM listener.'
+
     Set-WinRMListener -HostName $HostName
 
     Write-Output 'Artifact completed successfully.'
