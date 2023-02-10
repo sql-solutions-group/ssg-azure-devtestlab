@@ -7,7 +7,9 @@
     "Windows"
   ],
   "targetOsType": "Windows",
+  "parameters": {},
   "runCommand": {
-    "commandToExecute": "[concat('powershell.exe -ExecutionPolicy bypass \"& ./artifact.ps1\"')]"
+    "commandToExecute": "powershell.exe -ExecutionPolicy bypass \"./artifact.ps1\""
   }
 }
+
