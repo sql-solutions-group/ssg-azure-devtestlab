@@ -152,7 +152,7 @@ function Add-FirewallException
 }
 
 try {
-    $Hostname = (Get-Item env:\computername).Value + "." + (Get-Item env:\userdnsdomain).Value
+    $Hostname = ([System.Net.Dns]::GetHostByName($env:computerName)).Hostname
     Write-Output 'Add firewall exception for port 5986.'
     Add-FirewallException -Port 5986
 

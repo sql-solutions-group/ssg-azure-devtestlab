@@ -13,14 +13,6 @@ $ScriptLog = Join-Path -Path $PSScriptRoot -ChildPath "EnableProtocols" + [Syste
 # Default exit code
 $ExitCode = 0
 
-function InitializeFolders
-{
-    if ($false -eq (Test-Path -Path $ScriptLogFolder))
-    {
-        New-Item -Path $ScriptLogFolder -ItemType directory | Out-Null
-    }
-}
-
 function WriteLog
 {
     Param(
@@ -36,7 +28,6 @@ function WriteLog
 
 try
 {
-    InitializeFolders
     Import-Module sqlps
 
     WriteLog "Enabling Protocols ..."
@@ -51,7 +42,7 @@ try
     $Tcp
 
     # Enable the named pipes protocol for the default instance.
-    $uri = "ManagedComputer[@Name='<computer_name>']/ ServerInstance[@Name='MSSQLSERVER']/ServerProtocol[@Name='Np']"
+    $uri = "ManagedComputer[@Name='" + (get-item env:\computername).Value + "']/ ServerInstance[@Name='MSSQLSERVER']/ServerProtocol[@Name='Np']"
     $Np = $wmi.GetSmoObject($uri)
     $Np.IsEnabled = $true
     $Np.Alter()
