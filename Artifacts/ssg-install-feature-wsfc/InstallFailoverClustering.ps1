@@ -31,8 +31,6 @@ function WriteLog
 
 try
 {
-    InitializeFolders
-
     WriteLog "Installing Failover Clustering Feature ..."
     Install-WindowsFeature -Name Failover-Clustering -IncludeAllSubFeature -IncludeManagementTools
 }
