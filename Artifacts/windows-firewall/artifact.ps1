@@ -9,8 +9,8 @@ Write-Output "Selected operation: $firewallOperation"
 switch ($firewallOperation) {
     "Get Firewall Status" {
         & netsh advfirewall show allprofiles
-    }    
-    "Enable ICMP (ping)" {  
+    }
+    "Enable ICMP (ping)" {
         & netsh advfirewall firewall add rule name="ICMP Allow incoming V4 echo request" protocol=icmpv4:8,any dir=in action=allow
         & netsh advfirewall firewall add rule name="ICMP Allow incoming V6 echo request" protocol=icmpv6:8,any dir=in action=allow
     }
@@ -23,8 +23,11 @@ switch ($firewallOperation) {
     "Enable HTTP/HTTPS Port (tcp/80,443)" {
         & netsh advfirewall firewall add rule name="Allow HTTP/HTTPS Connections from anywhere" protocol=tcp localport=80,443 remoteip=any dir=in action=allow
     }
+    "Enable SQL Port (tcp/1433)" {
+        & netsh advfirewall firewall add rule name="Allow SQL Connections from anywhere" protocol=tcp localport=1433 remoteip=any dir=in action=allow
+    }
     "Enable Firewall" {
-        & netsh advfirewall set allprofiles state on 
+        & netsh advfirewall set allprofiles state on
     }
     "Disable Firewall" {
         & netsh advfirewall set allprofiles state off

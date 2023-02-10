@@ -18,9 +18,10 @@
           "Enable RDP Port (tcp/3389)",
           "Enable SSH Port (tcp/22)",
           "Enable HTTP/HTTPS Port (tcp/80,443)",
+          "Enable SQL Port (tcp/1433)",
           "Enable Firewall",
           "Disable Firewall"
-      ] 
+      ]
     }
   },
   "runCommand": {
