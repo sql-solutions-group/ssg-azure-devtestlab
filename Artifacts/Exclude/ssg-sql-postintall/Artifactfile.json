@@ -1,0 +1,25 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Azure/azure-devtestlab/master/schemas/2016-11-28/dtlArtifacts.json",
+  "title": "SSG - MSSQL Post Install Tasks",
+  "description": "Changes SQL Engine, Agent, SSIS service accounts to provided domain account and sets maxmem and maxdop based on the VM size.",
+  "publisher": "SSG",
+  "tags": [
+    "Windows"
+  ],
+  "targetOsType": "Windows",
+  "parameters": {
+    "sqlServiceAccountUsername": {
+      "type": "string",
+      "displayName": "SQL Server Service Account Name",
+      "description": "The AD account (non gmsa) to use."
+    },
+    "sqlServiceAccountPassword": {
+      "type": "securestring",
+      "displayName": "SQL Server Service Account Password",
+      "description": "The password for the service account."
+    }
+  },
+  "runCommand": {
+    "commandToExecute": "[concat('powershell.exe -ExecutionPolicy bypass \"& ./artifact.ps1', ' -ServiceAccountUsername ''', parameters('sqlServiceAccountUsername'), ''' -ServiceAccountPassword ''', parameters('sqlServiceAccountPassword')\"')]"
+  }
+}
