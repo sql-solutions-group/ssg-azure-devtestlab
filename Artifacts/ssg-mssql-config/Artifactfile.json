@@ -1,0 +1,14 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Azure/azure-devtestlab/master/schemas/2016-11-28/dtlArtifacts.json",
+    "title": "SSG - MSSQL Config",
+    "publisher": "SSG",
+    "description": "Post install script for SQL Server 2022 Developer Edition.  Adds data disks, moves DBs to them, enables protocols, and more.",
+    "tags": [
+        "Windows"
+    ],
+    "targetOsType": "Windows",
+    "parameters": {},
+    "runCommand": {
+        "commandToExecute": "powershell.exe -ExecutionPolicy bypass -File SQLConfig.ps1"
+    }
+}

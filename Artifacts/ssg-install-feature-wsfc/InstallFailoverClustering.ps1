@@ -9,18 +9,12 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
 # Location of the log files
 #$ScriptLogFolder = Join-Path $PSScriptRoot -ChildPath $("InstallFailoverClustering-" + [System.DateTime]::Now.ToString("yyyy-MM-dd-HH-mm-ss"))
 #$ScriptLog = Join-Path -Path $ScriptLogFolder -ChildPath "InstallFailoverClustering.log"
-$ScriptLog = Join-Path -Path $PSScriptRoot -ChildPath "InstallFailoverClustering-" + [System.DateTime]::Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".log"
+$ScriptLog = Join-Path -Path $PSScriptRoot -ChildPath ("InstallFailoverClustering-" + [System.DateTime]::Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".log")
 
 # Default exit code
 $ExitCode = 0
 
-function InitializeFolders
-{
-    if ($false -eq (Test-Path -Path $ScriptLogFolder))
-    {
-        New-Item -Path $ScriptLogFolder -ItemType directory | Out-Null
-    }
-}
+
 
 function WriteLog
 {
