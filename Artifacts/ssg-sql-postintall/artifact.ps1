@@ -25,13 +25,11 @@ Push-Location $PSScriptRoot
 # Handle all errors in this script.
 #
 
-trap
-{
+trap {
     # NOTE: This trap will handle all errors. There should be no need to use a catch below in this
     #       script, unless you want to ignore a specific error.
     $message = $error[0].Exception.Message
-    if ($message)
-    {
+    if ($message) {
         Write-Host -Object "ERROR: $message" -ForegroundColor Red
     }
 
@@ -55,36 +53,21 @@ trap
 # Main execution block.
 #
 
-try
-{
-    if ($PSVersionTable.PSVersion.Major -lt 3)
-    {
+try {
+    if ($PSVersionTable.PSVersion.Major -lt 3) {
         throw "The current version of PowerShell is $($PSVersionTable.PSVersion.Major). Prior to running this artifact, ensure you have PowerShell 3 or higher installed."
     }
 
-    #instance
-    $sqlinstance = (get-item env:\computername).Value
-
-    #Module
-    $ScriptFolder = "C:\SSG\SQLBuild"
-
-    if(!(Test-Path $ScriptFolder)){
-        throw "'$ScriptFolder' does not exist."
-    }
-
-    Import-Module C:\SSG\SQLBuild\SSGTools.psm1
     Import-Module dbatools
 
-    #parallelism
-    Write-Host "Setting MAXDOP"
-    Set-DbaMaxDop -SqlInstance $sqlinstance
-
-    #max memory
-    Write-Host "Setting MaxMemory"
-    Set-DbaMaxMemory -SqlInstance $sqlinstance
+    #permissions on temp drive
+    $acl = Get-Acl -Path T:\
+    $new = New-Object System.Security.AccessControl.FileSystemAccessRule("$ServiceAccountUserName", "FullControl", "ContainerInherit,ObjectInherit", "None", "Allow")
+    $acl.AddAccessRule($new)
+    Set-Acl -Path T:\ -AclObject $acl
 
     #service account
-    Wrote-Host "Changing service account for SQL Engine, Agent, SSIS to '$ServiceAccountUsername'"
+    Write-Host "Changing service account for SQL Engine, Agent, SSIS to `'$ServiceAccountUsername`'"
     $securePass = ConvertTo-SecureString $ServiceAccountPassword -AsPlainText -Force
     [PSCredential]$cred = New-Object System.Management.Automation.PSCredential ($ServiceAccountUsername, $securePass)
     Get-DbaService -SqlInstance localhost -Type Agent, Engine, SSIS | Update-DbaServiceAccount -ServiceCredential $cred
@@ -95,11 +78,20 @@ try
     Write-Host "Setting UserRight - Perform Volume Maintenance Tasks for '$ServiceAccountUsername'"
     .\Set-UserRights -AddRight -UserName $ServiceAccountUsername -UserRight SeManageVolumePrivilege
 
-    Restart-DbaService -ComputerName $sqlinstance -Type Agent, Engine, SSIS
+    Start-DbaService -ComputerName localhost -Type Engine, Agent, SSIS
+
+    #parallelism
+    Write-Host "Setting MAXDOP"
+    Set-DbaMaxDop -SqlInstance localhost
+
+    #max memory
+    Write-Host "Setting MaxMemory"
+    Set-DbaMaxMemory -SqlInstance localhost
+
+    Restart-DbaService -ComputerName  localhost -Type Agent, Engine, SSIS
 
     Write-Host 'Artifact applied successfully.'
 }
-finally
-{
+finally {
     Pop-Location
 }
