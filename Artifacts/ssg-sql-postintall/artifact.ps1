@@ -5,7 +5,11 @@ param
     [string] $ServiceAccountUsername,
 
     [Parameter(Mandatory = $true)]
-    [string] $ServiceAccountPassword
+    [string] $ServiceAccountPassword,
+
+    [Parameter(Mandatory = $true)]
+    [string] $saPassword
+
 )
 
 ###################################################################################################
@@ -82,15 +86,15 @@ try {
 
     Start-DbaService -ComputerName localhost -Type Engine, Agent, SSIS
 
-    #parallelism
+    #parallelism and maxmem
+    $securePass = ConvertTo-SecureString "$saPassword" -AsPlainText -Force
+    [PSCredential]$cred = New-Object System.Management.Automation.PSCredential ("sa", $securePass)
+
     Write-Host "Setting MAXDOP"
-    Set-DbaMaxDop -SqlInstance localhost
+    Set-DbaMaxDop -SqlInstance localhost -SqlCredential $cred
 
-    #max memory
     Write-Host "Setting MaxMemory"
-    Set-DbaMaxMemory -SqlInstance localhost
-
-    Restart-DbaService -ComputerName  localhost -Type Agent, Engine, SSIS
+    Set-DbaMaxMemory -SqlInstance localhost -SqlCredential $cred
 
     Write-Host 'Artifact applied successfully.'
 }

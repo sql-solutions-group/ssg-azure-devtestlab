@@ -17,10 +17,15 @@
       "type": "securestring",
       "displayName": "SQL Server Service Account Password",
       "description": "The password for the service account."
-    }
+    },
+    "saPassword": {
+          "type": "securestring",
+          "displayName": "sa password",
+          "description": "The password for the sa account."
+        }
   },
   "runCommand": {
-    "commandToExecute": "[concat('powershell.exe -ExecutionPolicy bypass \"& ./artifact.ps1', ' -ServiceAccountUsername ''', parameters('sqlServiceAccountUsername'), ''' -ServiceAccountPassword ''', parameters('sqlServiceAccountPassword'), '''\"')]"
+    "commandToExecute":"[concat('powershell.exe -ExecutionPolicy bypass \"& ./artifact.ps1', ' -ServiceAccountUsername ''', parameters('sqlServiceAccountUsername'), ''' -ServiceAccountPassword ''', parameters('sqlServiceAccountPassword'), ''' -saPassword ''', parameters('saPassword'), '''\"')]"
   }
 }
 
