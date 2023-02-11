@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/Azure/azure-devtestlab/master/schemas/2016-11-28/dtlArtifacts.json",
-  "title": "SSG - MSSQL Post Install Tasks",
+  "title": "SQL Server Post Install Tasks",
   "description": "Changes SQL Engine, Agent, SSIS service accounts to provided domain account and sets maxmem and maxdop based on the VM size.",
   "publisher": "SSG",
   "tags": [
