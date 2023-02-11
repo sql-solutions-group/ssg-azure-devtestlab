@@ -63,8 +63,6 @@ try
     Set-WMIInstance -Class Win32_PageFileSetting -Arguments @{ Name = "C:\pagefile.sys"; MaximumSize = 0; }
     Write-Host 'Artifact applied successfully. Restarting.'
 
-    Restart-Computer -Force
-
 }
 finally
 {

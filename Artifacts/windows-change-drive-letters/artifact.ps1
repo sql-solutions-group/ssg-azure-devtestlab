@@ -64,7 +64,7 @@ try
     Get-Partition -DriveLetter "F" | Set-Partition -NewDriveLetter "L"
 
     Write-Host 'Artifact applied successfully. Restarting.'
-    Restart-Computer -Force
+
 
 }
 finally
