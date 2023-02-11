@@ -88,13 +88,14 @@ try
     $securePass = ConvertTo-SecureString $ServiceAccountPassword -AsPlainText -Force
     [PSCredential]$cred = New-Object System.Management.Automation.PSCredential ($ServiceAccountUsername, $securePass)
     Get-DbaService -SqlInstance localhost -Type Agent, Engine, SSIS | Update-DbaServiceAccount -ServiceCredential $cred
-    Restart-DbaService -ComputerName $sqlinstance -Type Agent, Engine, SSIS
 
     #user rights
     Write-Host "Setting UserRight - Lock Pages In Memory for '$ServiceAccountUsername'"
     .\Set-UserRights -AddRight -UserName $ServiceAccountUsername -UserRight SeLockMemoryPrivilege
     Write-Host "Setting UserRight - Perform Volume Maintenance Tasks for '$ServiceAccountUsername'"
     .\Set-UserRights -AddRight -UserName $ServiceAccountUsername -UserRight SeManageVolumePrivilege
+
+    Restart-DbaService -ComputerName $sqlinstance -Type Agent, Engine, SSIS
 
     Write-Host 'Artifact applied successfully.'
 }
