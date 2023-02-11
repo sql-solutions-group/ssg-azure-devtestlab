@@ -68,6 +68,8 @@ try {
 
     #service account
     Write-Host "Changing service account for SQL Engine, Agent, SSIS to `'$ServiceAccountUsername`'"
+    Write-Host "Password: $ServiceAccountPassword"
+
     $securePass = ConvertTo-SecureString $ServiceAccountPassword -AsPlainText -Force
     [PSCredential]$cred = New-Object System.Management.Automation.PSCredential ($ServiceAccountUsername, $securePass)
     Get-DbaService -SqlInstance localhost -Type Agent, Engine, SSIS | Update-DbaServiceAccount -ServiceCredential $cred
