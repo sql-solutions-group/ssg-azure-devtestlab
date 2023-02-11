@@ -20,6 +20,6 @@
     }
   },
   "runCommand": {
-    "commandToExecute": "[concat('powershell.exe -ExecutionPolicy bypass \"& ./artifact.ps1', ' -ServiceAccountUsername ''', parameters('sqlServiceAccountUsername'), ''' -ServiceAccountPassword ''', parameters('sqlServiceAccountPassword')\"')]"
+    "commandToExecute": "[concat('powershell.exe -ExecutionPolicy bypass \"& ./artifact.ps1 -ServiceAccountUsername ''', parameters('sqlServiceAccountUsername'), ''' -ServiceAccountPassword ''', parameters('sqlServiceAccountPassword'), '''\")']"
   }
 }
